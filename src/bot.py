@@ -1,5 +1,5 @@
 import asyncio
-from typing import List
+from typing import List, Dict
 
 from nio import AsyncClient, AsyncClientConfig, LoginResponse, MatrixRoom, RoomMessageText, JoinedRoomsResponse
 from config import Config
@@ -91,6 +91,10 @@ class MarvinBot:
     def remove_command_handler(self, command: str) -> None:
         if command in self._command_handlers.keys():
             del self._command_handlers['key']
+
+    @property
+    def command_handlers(self) -> Dict[str,BasicHandler]:
+        return self._command_handlers
 
     async def _room_message_callback(self, room: MatrixRoom, event: RoomMessageText) -> None:
         logging.log(logging.DEBUG, f"Received a message in room {room.display_name}, from: {room.user_name(event.sender)}")
